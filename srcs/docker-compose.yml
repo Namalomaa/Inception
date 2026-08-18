@@ -2,7 +2,7 @@ services:
 
   mariadb:
 
-    image: mariadb
+    image: mariadb:mariadB
 
     build:
       context: ./requirements/mariadb
