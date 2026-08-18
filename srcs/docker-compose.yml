@@ -1,0 +1,64 @@
+services:
+
+  mariadb:
+
+    image: mariadb
+
+    build:
+      context: ./requirements/mariadb
+
+    container_name: mariadb
+
+    restart: always
+
+    env_file:
+      - .env
+
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+    networks:
+      - inception
+
+    expose:
+      - "3306"
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress
+    restart: always
+    depends_on:
+      - mariadb
+    environment:
+      WORDPRESS_DB_HOST: mariadb:3306
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8080:80"
+    networks:
+      - inception
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    networks:
+      - inception
+
+volumes:
+
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/namaloma/data/mariadb
+
+networks:
+
+  inception:
