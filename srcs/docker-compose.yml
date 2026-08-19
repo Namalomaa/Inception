@@ -2,7 +2,7 @@ services:
 
   mariadb:
 
-    image: mariadb:mariadB
+    image: mariadb:inception
 
     build:
       context: ./requirements/mariadb
@@ -23,12 +23,20 @@ services:
     expose:
       - "3306"
 
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   wordpress:
     image: wordpress:latest
     container_name: wordpress
     restart: always
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
+
     environment:
       WORDPRESS_DB_HOST: mariadb:3306
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
@@ -62,3 +70,5 @@ volumes:
 networks:
 
   inception:
+    name: inception
+    driver: bridge
