@@ -11,6 +11,10 @@ services:
 
     restart: always
 
+    secrets:
+      - db_root_pass
+      - db_pass
+
     env_file:
       - .env
 
@@ -25,7 +29,7 @@ services:
 
   wordpress:
 
-    image: wordpress:latest
+    image: wordpress:inception
 
     build:
       context: ./requirements/wordpress
@@ -36,17 +40,8 @@ services:
       mariadb:
         condition: service_healthy
 
-    environment:
-      WORDPRESS_DB_HOST: mariadb:3306
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-      
-      WP_ADMIN_USER: ${WP_ADMIN_USER}
-      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
-      WP_USER: ${WP_USER}
-      WP_USER_EMAIL: ${WP_USER_EMAIL}
-      DOMAIN_NAME: ${DOMAIN_NAME}
+    env_file:
+      - .env
     
     secrets:
       - db_pass
@@ -70,6 +65,10 @@ services:
       - inception
 
 secrets:
+
+  db_root_pass:
+    file: ../secrets/db_root_pass.txt
+  
   db_pass:
     file: ../secrets/db_pass.txt
 

@@ -1,0 +1,95 @@
+services:
+
+  mariadb:
+
+    image: mariadb:inception
+
+    build:
+      context: ./requirements/mariadb
+
+    container_name: mariadb
+
+    restart: always
+
+    env_file:
+      - .env
+
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+    networks:
+      - inception
+
+    expose:
+      - "3306"
+
+  wordpress:
+
+    image: wordpress:latest
+
+    build:
+      context: ./requirements/wordpress
+
+    container_name: wordpress
+    restart: always
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+    environment:
+      WORDPRESS_DB_HOST: mariadb:3306
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      WP_ADMIN_USER: ${WP_ADMIN_USER}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      WP_USER: ${WP_USER}
+      WP_USER_EMAIL: ${WP_USER_EMAIL}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+    
+    secrets:
+      - db_pass
+      - wp_admin_pass
+      - wp_user_pass
+
+    ports:
+      - "8080:80"
+    networks:
+      - inception
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    networks:
+      - inception
+
+secrets:
+  db_pass:
+    file: ../secrets/db_pass.txt
+
+  wp_admin_pass:
+    file: ../secrets/wp_admin_pass.txt
+
+  wp_user_pass:
+    file: ../secrets/wp_user_pass.txt
+
+volumes:
+
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/namaloma/data/mariadb
+
+networks:
+
+  inception:
+    name: inception
+    driver: bridge

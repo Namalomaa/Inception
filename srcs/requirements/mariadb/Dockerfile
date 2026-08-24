@@ -14,6 +14,6 @@ EXPOSE	3306
 
 HEALTHCHECK	--interval=5s --timeout=5s --retries=10 \
 		CMD mariadb-admin ping -h localhost -u root \
-		-p"${MYSQL_ROOT_PASSWORD}" || exit 1
+		-p"$(cat /run/secrets/db_root_pass)" || exit 1
 
 ENTRYPOINT	["/mariadb.sh"]

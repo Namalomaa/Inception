@@ -2,10 +2,12 @@
 
 set -e
 
-: "${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is not set}"
+
 : "${MYSQL_DATABASE:?MYSQL_DATABASE is not set}"
 : "${MYSQL_USER:?MYSQL_USER is not set}"
-: "${MYSQL_PASSWORD:?MYSQL_PASSWORD is not set}"
+
+MYSQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_pass)
+MYSQL_PASSWORD=$(cat /run/secrets/db_pass)
 
 
 mkdir -p /run/mysqld
