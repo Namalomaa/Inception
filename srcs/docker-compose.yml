@@ -23,14 +23,13 @@ services:
     expose:
       - "3306"
 
-    healthcheck:
-      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
   wordpress:
+
     image: wordpress:latest
+
+    build:
+      context: ./requirements/wordpress
+
     container_name: wordpress
     restart: always
     depends_on:
@@ -42,6 +41,18 @@ services:
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
       WORDPRESS_DB_USER: ${MYSQL_USER}
       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      
+      WP_ADMIN_USER: ${WP_ADMIN_USER}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      WP_USER: ${WP_USER}
+      WP_USER_EMAIL: ${WP_USER_EMAIL}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+    
+    secrets:
+      - db_pass
+      - wp_admin_pass
+      - wp_user_pass
+
     ports:
       - "8080:80"
     networks:
@@ -57,6 +68,16 @@ services:
       - "443:443"
     networks:
       - inception
+
+secrets:
+  db_pass:
+    file: ../secrets/db_pass.txt
+
+  wp_admin_pass:
+    file: ../secrets/wp_admin_pass.txt
+
+  wp_user_pass:
+    file: ../secrets/wp_user_pass.txt
 
 volumes:
 

@@ -1,4 +1,4 @@
-FROM	debian:bookworm
+FROM	debian:12.15
 
 RUN	apt-get update && \
 	apt-get install -y mariadb-server && \
@@ -6,10 +6,14 @@ RUN	apt-get update && \
 	rm -rf /var/lib/apt/lists/*
 
 COPY	conf/mariadb.cnf /etc/mysql/mariadb.conf.d/
-COPY	tools/mariadb.sh /usr/local/bin/
+COPY	tools/mariadb.sh /mariadb.sh
 
-RUN	chmod +x /usr/local/bin/mariadb.sh
+RUN	chmod +x /mariadb.sh
 
 EXPOSE	3306
 
-ENTRYPOINT ["/usr/local/bin/mariadb.sh"]
+HEALTHCHECK	--interval=5s --timeout=5s --retries=10 \
+		CMD mariadb-admin ping -h localhost -u root \
+		-p"${MYSQL_ROOT_PASSWORD}" || exit 1
+
+ENTRYPOINT	["/mariadb.sh"]
