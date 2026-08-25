@@ -20,6 +20,13 @@ WP_USER_PASSWORD=$(cat /run/secrets/wp_user_pass)
 mkdir	-p /run/php
 
 
+if [ ! -f /var/www/html/wp-load.php ]; then
+    wp core download \
+        --allow-root \
+        --path=/var/www/html
+fi
+
+
 if	[ ! -f /var/www/html/wp-config.php ];then
 	wp config create \
 		--allow-root \

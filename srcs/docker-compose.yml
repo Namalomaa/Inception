@@ -48,13 +48,18 @@ services:
       - wp_admin_pass
       - wp_user_pass
 
-    ports:
-      - "8080:80"
+    volumes:
+      - wordpress_data:/var/www/html
+
     networks:
       - inception
 
   nginx:
-    image: nginx:latest
+    image: nginx:inception
+
+    build:
+      context: ./requirements/nginx
+
     container_name: nginx
     restart: always
     depends_on:
@@ -63,6 +68,8 @@ services:
       - "443:443"
     networks:
       - inception
+    volumes:
+      - wordpress_data:/var/www/html:ro
 
 secrets:
 
@@ -86,6 +93,12 @@ volumes:
       type: none
       o: bind
       device: /home/namaloma/data/mariadb
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/namaloma/data/wordpress
 
 networks:
 
