@@ -233,19 +233,20 @@ The main process started by the container becomes PID 1 inside that container. K
 
 Classic references used for the project:
 
+- Docker Baisics — https://youtu.be/pg19Z8LL06w?si=1pWiAt5yZdyToWLl
 - Docker Documentation — https://docs.docker.com/
 - Docker Compose Documentation — https://docs.docker.com/compose/
-- Dockerfile reference — https://docs.docker.com/reference/dockerfile/
-- Docker volumes — https://docs.docker.com/engine/storage/volumes/
-- Docker networking — https://docs.docker.com/engine/network/
 - Docker secrets — https://docs.docker.com/engine/swarm/secrets/
 - NGINX Documentation — https://nginx.org/en/docs/
-- PHP-FPM documentation — https://www.php.net/manual/en/install.fpm.php
-- MariaDB Documentation — https://mariadb.com/docs/
-- WordPress Documentation — https://wordpress.org/documentation/
+- PHP-FPM — https://www.php.net/manual/en/install.fpm.php
+- MariaDB guide — https://mariadb.com/docs/
+- WordPress installation — https://make.wordpress.org/cli/handbook/guides/installing/#verifying-the-download-optional-but-recommended/
 - WP-CLI Documentation — https://developer.wordpress.org/cli/commands/
-- OpenSSL Documentation — https://docs.openssl.org/
-- Docker Hub Debian image — https://hub.docker.com/_/debian
+- SSL handshake explaination — https://youtu.be/67Kfsmy_frM?si=QzHMdXSRTrhGPk2e
+- OpenSSL Documentation — /
+- installing self-signed certificate  — https://docs.faveohelpdesk.com/docs/installation/providers/enterprise/self-signed-ssl-debian-nginx/
+
+
 
 ### How AI was used
 

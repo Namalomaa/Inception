@@ -7,7 +7,7 @@ up:
 stop:
 	docker compose -f ./srcs/docker-compose.yml stop
 
-clean:
+down:
 	docker compose -f ./srcs/docker-compose.yml down
 
 .PHONY:	build up stop clean
