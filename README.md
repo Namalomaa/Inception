@@ -243,7 +243,7 @@ Classic references used for the project:
 - WordPress installation — https://make.wordpress.org/cli/handbook/guides/installing/#verifying-the-download-optional-but-recommended/
 - WP-CLI Documentation — https://developer.wordpress.org/cli/commands/
 - SSL handshake explaination — https://youtu.be/67Kfsmy_frM?si=QzHMdXSRTrhGPk2e
-- OpenSSL Documentation — /
+- OpenSSL Documentation — https://openssl-ca.readthedocs.io/en/latest/
 - installing self-signed certificate  — https://docs.faveohelpdesk.com/docs/installation/providers/enterprise/self-signed-ssl-debian-nginx/
 
 
