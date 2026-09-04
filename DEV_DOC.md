@@ -65,36 +65,39 @@ The project can also be run inside a Linux VM. In that case, make sure the VM ca
 A typical structure is:
 
 ```text
+
 .
+├── DEV_DOC.md
+├── USER_DOC.md
 ├── Makefile
 ├── README.md
-├── USER_DOC.md
-├── DEV_DOC.md
-├── srcs/
-│   ├── docker-compose.yml
-│   ├── .env
-│   ├── requirements/
-│   │   ├── mariadb/
-│   │   │   ├── Dockerfile
-│   │   │   └── tools/
-│   │   │       └── mariadb.sh
-│   │   ├── nginx/
-│   │   │   ├── Dockerfile
-│   │   │   └── conf/
-│   │   │       └── nginx.conf
-│   │   └── wordpress/
-│   │       ├── Dockerfile
-│   │       └── tools/
-│   │           └── wordpress.sh
-│   └── secrets/
-│       ├── db_pass.txt
-│       ├── db_root_pass.txt
-│       ├── wp_admin_pass.txt
-│       └── wp_user_pass.txt
-└── data/
-```
+├── secrets
+│   ├── db_pass.txt
+│   ├── db_root_pass.txt
+│   ├── wp_admin_pass.txt
+│   └── wp_user_pass.txt
+├── srcs
+│   ├── docker-compose.yml
+│   └── requirements
+│       ├── mariadb
+│       │   ├── conf
+│       │   │   └── mariadb.cnf
+│       │   ├── Dockerfile
+│       │   └── tools
+│       │       └── mariadb.sh
+│       ├── nginx
+│       │   ├── conf
+│       │   │   └── nginx.conf
+│       │   └── Dockerfile
+│       └── wordpress
+│           ├── conf
+│           │   └── www.conf
+│           ├── Dockerfile
+│           └── tools
+│               └── wordpress.sh
 
-Adjust paths when your final repository uses a different layout.
+
+```
 
 ## 4. Configuration Files
 
