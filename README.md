@@ -73,62 +73,7 @@ This project uses a Docker bridge network so that NGINX can reach WordPress and 
 
 This project uses Docker volumes for persistent WordPress and MariaDB data. This means `docker compose down` removes the containers and network, but normally keeps the data. Using `docker compose down -v` also removes the volumes and therefore deletes the persistent data.
 
-## Services and Architecture
 
-```text
-                       Browser
-                          |
-                     HTTPS :443
-                          |
-                       [NGINX]
-                          |
-                    FastCGI :9000
-                          |
-                  [WordPress/PHP-FPM]
-                          |
-                     MariaDB :3306
-                          |
-                       [MariaDB]
-
-       All three services communicate over a private Docker network.
-       WordPress files and MariaDB data are persisted in Docker volumes.
-```
-
-## Project Structure
-
-A typical structure is:
-
-```text
-.
-├── Makefile
-├── README.md
-├── DEV_DOC.md
-├── USER_DOC.md
-├── srcs/
-│   ├── docker-compose.yml
-│   ├── .env
-│   ├── requirements/
-│   │   ├── mariadb/
-│   │   │   ├── Dockerfile
-│   │   │   └── tools/
-│   │   │       └── mariadb.sh
-│   │   ├── nginx/
-│   │   │   ├── Dockerfile
-│   │   │   └── conf/
-│   │   │       └── nginx.conf
-│   │   └── wordpress/
-│   │       ├── Dockerfile
-│   │       └── tools/
-│   │           └── wordpress.sh
-│   └── secrets/
-│       ├── db_pass.txt
-│       ├── db_root_pass.txt
-│       ├── wp_admin_pass.txt
-│       └── wp_user_pass.txt
-└── data/
-```
-
-The exact file names can vary slightly depending on the final repository structure.
 
 ## Instructions
 
@@ -220,8 +165,6 @@ srcs/secrets/wp_admin_pass.txt
 srcs/secrets/wp_user_pass.txt
 ```
 
-Do not publish real passwords to GitHub or any public repository. The repository should ignore local secret files with `.gitignore`, while a safe `.env.example` can be provided for non-secret configuration.
-
 ## Useful Commands
 
 Check running containers:
@@ -310,15 +253,10 @@ AI was used as a learning and debugging assistant during the activity. It helped
 
 - Understanding Docker concepts such as images, containers, volumes, networks, PID 1, foreground processes and daemon behaviour.
 - Explaining Docker Compose commands and troubleshooting container lifecycle issues.
-- Understanding NGINX configuration, `location` blocks, URI handling, FastCGI parameters, `fastcgi_pass`, and PHP-FPM communication.
 - Debugging MariaDB initialization scripts, healthchecks and container configuration.
 - Understanding WordPress/PHP-FPM installation and WP-CLI usage.
 - Troubleshooting SSL certificate configuration with OpenSSL.
 - Explaining Docker volume storage and the difference between named volumes and bind mounts.
 - Reviewing commands and configuration choices while keeping the final implementation under the developer's control.
 
-AI did not replace the project implementation. Commands, configuration files and behaviour were tested and adjusted in the project's Docker environment.
 
-## License
-
-This project is part of the 42 curriculum and is intended for educational purposes.
