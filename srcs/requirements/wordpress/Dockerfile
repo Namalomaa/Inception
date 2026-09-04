@@ -12,10 +12,6 @@ RUN	apt-get update && apt-get install -y \
 
 WORKDIR	/var/www/html
 
-# RUN	curl -LO https://wordpress.org/wordpress-7.1.tar.gz \
-# 	&& tar -xzf wordpress-7.1.tar.gz --strip-components=1 \
-# 	&& rm wordpress-7.1.tar.gz
-
 RUN	curl -o /usr/local/bin/wp \
 	https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	&& chmod +x /usr/local/bin/wp

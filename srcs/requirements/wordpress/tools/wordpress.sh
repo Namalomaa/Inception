@@ -20,14 +20,16 @@ WP_USER_PASSWORD=$(cat /run/secrets/wp_user_pass)
 mkdir	-p /run/php
 
 
-if [ ! -f /var/www/html/wp-load.php ]; then
-    wp core download \
+if	[ ! -f /var/www/html/wp-load.php ]; then
+	
+	wp core download \
         --allow-root \
         --path=/var/www/html
 fi
 
 
 if	[ ! -f /var/www/html/wp-config.php ];then
+	
 	wp config create \
 		--allow-root \
 		--path=/var/www/html \
@@ -55,6 +57,31 @@ if	! wp core is-installed --allow-root --path=/var/www/html; then
 		"$WP_USER_EMAIL" \
 		--user_pass="$WP_USER_PASSWORD" \
 		--role=author \
+		--allow-root \
+		--path=/var/www/html
+
+
+	wp option update blogname "My Inception Website" \
+		--allow-root \
+		--path=/var/www/html
+	
+	wp option update blogdescription "Welcome to my website" \
+		--allow-root \
+		--path=/var/www/html
+	
+	# Remove default WordPress content 
+	wp post delete 1 --force \
+		--allow-root \
+		--path=/var/www/html
+	
+	wp post delete 2 --force \
+		--allow-root \
+		--path=/var/www/html 
+	# Create my own post 
+	wp post create \
+		--post_title="Welcome to My Website" \
+		--post_content="This is my custom WordPress website created automatically by Docker." \
+		--post_status=publish \
 		--allow-root \
 		--path=/var/www/html
 fi
